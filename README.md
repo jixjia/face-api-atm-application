@@ -1,5 +1,5 @@
 # face-api-atm-application
-Face API with container support now applied to ATM application demo
+Face API with container support applied to ATM use case. This is a PoC solution (Demo)
 
 I'm too lazy to write anything useful here... (yet)
 
