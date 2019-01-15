@@ -87,7 +87,7 @@ def identify(faceSession, fileName):
                 "personGroupId": config.personGroupId,
                 "faceIds": [faceId],
                 "maxNumOfCandidatesReturned": 1,
-                "confidenceThreshold": 0.3
+                "confidenceThreshold": 0.5
             }
             bodyIdentify = json.dumps(bodyIdentify)
 

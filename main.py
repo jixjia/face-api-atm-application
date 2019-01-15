@@ -151,7 +151,7 @@ def consoleStreaming():
                         elif personName == config.currentUser:
                             pass #Skip
                         
-                        elif personName != config.currentUser and conf > 0.3:
+                        elif personName != config.currentUser and conf > 0.5:
                             if statusCode == 'OK':
                                 
                                 # (1) Register person as the new currentUser
