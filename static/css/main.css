@@ -1,0 +1,156 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    height:100%;
+    padding: 0;
+    background-color:#dddfe2;
+    margin: 0 0 40px; /* bottom = footer height */
+}
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    /* z-index: 10; */
+    width: 100%;
+    height: 40px;
+    padding-top: 10px;
+    padding-left:150px;
+    background-color: #555;
+    color: white;
+    font-size: 13px;
+    overflow:hidden;
+}
+.nav-button {
+    padding: 5px 0;
+}
+.sidebar
+{
+    width: 200px;
+    height: 100%;
+    background-color: #293a55;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding: 0 10px 0;
+    /* min-height:100%; */
+}
+.main-dish {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    padding: 10px 20px 0;
+    height: 100%;
+}
+ul li a {
+    color: aliceblue;
+}
+.camera-tile {
+    height: 500px;
+}
+.console-tile {
+    height: 370px;
+}
+.logo {
+    margin: 20px auto 40px auto;
+    width:100%;
+}
+.logo img {
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+#console {
+    background: rgb(42, 44, 48);
+    color: #c0c0c2;
+    overflow: auto;
+    line-height:1.7;
+}
+
+.btn-general{
+    width: 100%;
+    font-size: 17px;
+}
+.btn-voice{
+    width: 100%;
+    font-size: 17px;
+}
+.btn-register{
+    width: 100%;
+    height:70px;
+    font-size: 17px;
+}
+#numpad {
+    font-size: 50px;
+
+}
+.keypad {
+    margin:20px auto;
+    /* background: #ff0000; */
+}
+.keypad table {
+    margin: auto;
+    /* background: blue; */
+}
+.padkey {
+    width:85px;
+    height: 50px;
+    margin: 3px;
+    font-size: 18px;
+}
+.padbutton {
+    width:140px;
+    height: 50px;
+    margin:5px;
+    font-size: 16px;
+}
+.padzero {
+    width:275px;
+    height: 50px;
+    margin:3px;
+    font-size: 18px;
+}
+.padConfirm {
+    width:140px;
+    height: 115px;
+    margin:5px;
+    font-size: 16px;
+}
+.register-form{
+    padding: 10px 0px 20px 0px;
+}
+.input-form{
+    margin-bottom: 10px;
+}
+#registration_status{
+    width: 100%;
+    align-content: center;
+    margin: auto;
+    padding-left:10px; /*manual adjustments*/
+    display: none;
+}
+#registration_status table {
+    width:100%;
+}
+#train_result{
+    font-size:18px;
+}    
+#voice_status{
+    width: 100%;
+    align-content: center;
+    margin: auto;
+    padding-left:10px; /*manual adjustments*/
+    display: none;
+}
+#voice_status table {
+    width:100%;
+}
+#voice_result{
+    font-size:18px;
+}   
+
+/* On small screens, set height to 'auto' for the grid */
+@media screen and (max-width: 768px) {
+    .main-dish {margin-left: 0;} 
+}

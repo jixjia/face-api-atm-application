@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Face-Identity ATM Application</title>
+
+    <!-- Bootstrap CDN --> <!-- AJAX -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    
+    <link rel="stylesheet" href="../static/css/main.css">
+    <script>
+        var consoleStreaming = new EventSource("/consoleStreaming");
+        consoleStreaming.onmessage = function(event) {
+            document.getElementById("console").innerHTML += event.data + "<br/>"
+            // if(event.data == "Identity Verified !"){
+			// consoleStreaming.close()
+		    // }
+        }
+    </script>
+
+    <!-- Asynchronous PIN verification -->
+    <script type=text/javascript>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script type=text/javascript>
+      $(function() {
+        $('button#verify_pin').bind('click', function() {
+          $.getJSON($SCRIPT_ROOT + '/verify_pin', {
+            pin: $('input[name="pin"]').val()
+          }, function(data) {
+            $("#pin_result").text(data.pin_result); 
+            if (data.pin_result == 'PIN Correct !') {
+                document.getElementById("pin_result").style.color = "green";
+            }
+            else {
+                document.getElementById("pin_result").style.color = "red";
+            }
+          });
+          return false;
+        });
+      });
+    </script>
+
+    <!-- Asynchronous Face Training  -->
+    <script type=text/javascript>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script type=text/javascript>
+      $(function() {
+        $('button#register_face').bind('click', function() {
+          // Show training status block
+          document.getElementById("registration_status").style.display = "inherit";
+          // Change status to In-progress
+          $("#train_logo").attr('src','../static/images/loading.gif');
+          $("#train_result").text('Training in progress...');
+          // Submit asynchronous job to backend
+          $.getJSON($SCRIPT_ROOT + '/register_face', {
+            username: $('input[name="username"]').val(),
+            userphone: $('input[name="userphone"]').val()
+          }, function(data) {
+            // Update training outcome
+            $("#train_result").text(data.train_result);
+            // Update status icon
+            if ( data.status_code == 200 ) {
+                $("#train_logo").attr('src','../static/images/done.png');
+            }
+            else {
+                $("#train_logo").attr('src','../static/images/red.png');
+            }
+          });
+          return false;
+        });
+      });
+    </script>
+
+    <!-- Asynchronous Voice Recording & Verification  -->
+    <script type=text/javascript>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script type=text/javascript>
+      $(function() {
+        $('button#auth_voice').bind('click', function() {
+          // Show training status block
+          document.getElementById("voice_status").style.display = "inherit";
+          // Change status to In-progress
+          $("#voice_logo").attr('src','../static/images/loading.gif');
+          $("#voice_result").text('Processing Your Voiceprint...');
+          // Submit asynchronous job to backend
+          $.getJSON($SCRIPT_ROOT + '/auth_voice', {
+            dummy : 1
+          }, function(data) {
+            // Update training outcome
+            $("#voice_result").text(data.voice_result);
+            
+            // redirect to @app.route(/verified) if PIN is correct
+            // wait for x ms before redirect
+            if ( data.voice_result == 'Voice Authentication Successful !' ) {
+                $("#voice_logo").attr('src','../static/images/done.png');
+                var timer = setTimeout(function() {
+                    window.location.replace('/verified')
+                }, 6000);
+            }
+            else {
+                $("#voice_logo").attr('src','../static/images/red.png');
+            }
+          });
+          return false;
+        });
+      });
+    </script>
+
+    <!-- Keypad Entry -->
+    <script type=text/javascript>
+        function addNumber(element){
+            document.getElementById('numpad').value = document.getElementById('numpad').value+element.value;
+        };
+        function addPhoneNumber(element){
+            document.getElementById('userphone').value = document.getElementById('userphone').value+element.value;
+        };
+        $(function() {
+            $('#delete').click(
+                function(){
+                    var original = $('#numpad').val();
+                    var shortened = original.substr(0,(original.length -1));
+                    $('#numpad').val(shortened);
+                });
+        });
+        $(function() {
+            $('#clear').click(
+                function(){
+                    var emptyString = "";
+                    $('#numpad').val(emptyString);
+                });
+        });
+        $(function() {
+            $('#deletePhone').click(
+                function(){
+                    var originalPhone = $('#userphone').val();
+                    var shortenedPhone = originalPhone.substr(0,(originalPhone.length -1));
+                    $('#userphone').val(shortenedPhone);
+                });
+        });
+        $(function() {
+            $('#clearPhone').click(
+                function(){
+                    var emptyStringPhone = "";
+                    $('#userphone').val(emptyStringPhone);
+                });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Heading Nav Menu (Responsive Design) -->
+    <nav class="navbar navbar-inverse visible-xs">
+        <div class="container-fluid">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="#">Microsoft</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/"><span class="glyphicon glyphicon-eye-open"></span> &nbsp; Application</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> &nbsp; ID Management</a></li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div>
+       <!-- Side Menu -->
+        <div class="hidden-xs sidebar">
+            <div class="logo"><img src="../static/images/msft-large-white-xs.png" height="25px"></div>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="/"><span class="glyphicon glyphicon-eye-open nav-button"></span> &nbsp; Application</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user nav-button"></span> &nbsp; ID Management</a></li>
+            </ul><br>
+        </div>
+        
+        <!-- Main Dish -->
+        <div class="main-dish">
+            <!-- Dashboard  -->
+            <div>&nbsp;</div>
+            <div class="well">
+                <h4>Face Identity ATM</h4>
+            </div>
+            <!-- Info  -->
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Information!</strong> This is a demo for faccial identity based ATM application. Do Not Use for production.
+            </div>
+            <!-- Face Identity & Console Outputs -->
+            <div class="row">
+                <div class="col-sm-7">
+                    <h4>LIVE CAMERA</h4>
+                    <!-- <div class="well tile"><img src="../static/images/face-test.png" width="100%" height="100%"></div> -->
+                    <div class="well camera-tile"><img src="{{ url_for('video_feed') }}" width="100%" height="100%"></div>
+                </div>
+                <div class="col-sm-5">
+                    <h4>CONSOLE </h4>
+                    <div class="well console-tile" id="console"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <button type="button" class="btn btn-success btn-lg btn-general" data-toggle="modal" data-target="#keypad"><span class="glyphicon glyphicon-th"></span> &nbsp;Keypad</button>
+                        </div>
+                        <div class="col-sm-5">
+                            <button type="button" class="btn btn-info btn-lg btn-general" data-toggle="modal" data-target="#infopad"><span class="glyphicon glyphicon-user"></span> &nbsp;Register</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary btn-lg btn-voice" data-toggle="modal" data-target="#voicepad"><img src="../static/images/mike.png" width="12px"></button>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-danger btn-lg btn-general" onClick="window.open('about:blank', '_self').close()"><span class="glyphicon glyphicon-new-window"></span> &nbsp;Terminate</button>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                </div>
+            </div>
+        </div> <!--Main Dish End -->
+        <!-- Footer -->    
+        <footer class="text-center">
+            <p>&copy; Microsoft Data &amp; AI Office of CTO - Jixin Jia</p>
+        </footer>
+    </div>
+    
+    <!-- Keypad Modal -->
+    <div class="modal fade" id="keypad" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">PIN Keypad</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="process-outcome">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input id="numpad" type="password" class="form-control input-lg" name="pin">
+                        </div>
+                        <div class="keypad">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn padkey" name="1" value="1" id="1" onClick=addNumber(this); />
+                                        <input type="button" class="btn padkey" name="2" value="2" id="2" onClick=addNumber(this); />
+                                        <input type="button" class="btn padkey" name="3" value="3" id="3" onClick=addNumber(this); />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning padbutton" id="delete" onClick=deleteNumber(this);><span class="glyphicon glyphicon-circle-arrow-left"></span> Delete &nbsp;</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn padkey" name="4" value="4" id="4" onClick=addNumber(this); />
+                                        <input type="button" class="btn padkey" name="5" value="5" id="5" onClick=addNumber(this); />    
+                                        <input type="button" class="btn padkey" name="6" value="6" id="6" onClick=addNumber(this); />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger padbutton" id="clear" onClick=clear(this);><span class="glyphicon glyphicon-remove-sign"></span> Clear &nbsp;&nbsp;&nbsp;</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn padkey" name="7" value="7" id="7" onClick=addNumber(this); />
+                                        <input type="button" class="btn padkey" name="8" value="8" id="8" onClick=addNumber(this); />
+                                        <input type="button" class="btn padkey" name="9" value="9" id="9" onClick=addNumber(this); />
+                                    </td>
+                                    <td rowspan="2">
+                                        <button type="button" name="action" class="btn btn-success padConfirm" id="verify_pin"><span class="glyphicon glyphicon-ok-sign"></span> Confirm</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn padzero" name="0" value="0" id="0" onClick=addNumber(this); />
+                                    </td>
+                                </tr>
+                            </table>                        
+                        </div>
+                        <!-- <button type="submit" name="action" class="btn btn-danger">Post Form</button> -->
+                    </form>
+                    <div style="color:black; text-align: center; font-size: 18px;">
+                        <span id="pin_result"></span>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Infopad Modal -->
+    <div class="modal fade" id="infopad" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Register New User</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group-lg register-form">
+                        <div class="input-group input-form">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input id="username" type="text" class="form-control" name="username" placeholder="Name">
+                        </div>
+                        <div class="input-group input-form">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                            <input id="userphone" type="text" class="form-control" name="userphone" placeholder="Phone Number">
+                        </div>
+                        <!-- Num Keypad -->
+                        <div class="keypad">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn btn-default padkey" name="1" value="1" id="1" onClick=addPhoneNumber(this); />
+                                        <input type="button" class="btn btn-default padkey" name="2" value="2" id="2" onClick=addPhoneNumber(this); />
+                                        <input type="button" class="btn btn-default padkey" name="3" value="3" id="3" onClick=addPhoneNumber(this); />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning padbutton" id="deletePhone" onClick=deleteNumber(this);><span class="glyphicon glyphicon-circle-arrow-left"></span> Delete &nbsp;</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn btn-default padkey" name="4" value="4" id="4" onClick=addPhoneNumber(this); />
+                                        <input type="button" class="btn btn-default padkey" name="5" value="5" id="5" onClick=addPhoneNumber(this); />    
+                                        <input type="button" class="btn btn-default padkey" name="6" value="6" id="6" onClick=addPhoneNumber(this); />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger padbutton" id="clearPhone" onClick=clear(this);><span class="glyphicon glyphicon-remove-sign"></span> Clear &nbsp;&nbsp;&nbsp;</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn btn-default padkey" name="7" value="7" id="7" onClick=addPhoneNumber(this); />
+                                        <input type="button" class="btn btn-default padkey" name="8" value="8" id="8" onClick=addPhoneNumber(this); />
+                                        <input type="button" class="btn btn-default padkey" name="9" value="9" id="9" onClick=addPhoneNumber(this); />
+                                    </td>
+                                    <td rowspan="2">
+                                        <input type="button" class="btn btn-default padConfirm" name="plus" value="+" id="plus" onClick=addPhoneNumber(this); />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn btn-default padzero" name="0" value="0" id="0" onClick=addPhoneNumber(this); />
+                                    </td>
+                                </tr>
+                                <tr><td colspan="4">&nbsp;</td></tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <button type="button" name="action" class="btn btn-primary btn-lg btn-register" id="register_face"><span class="glyphicon glyphicon glyphicon-refresh"></span> &nbsp; Begin Training</button>
+                                    </td>
+                                </tr>
+                            </table>                        
+                        </div>
+                    </form>
+                    <div id="registration_status">
+                        <table>
+                            <tr>
+                                <td width="600px" align="center"><img id="train_logo" src="" height="50px">&nbsp;&nbsp;&nbsp;<span id="train_result"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Voicepad Modal -->
+    <div class="modal fade" id="voicepad" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Voice Authentication</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row"><div class="col-sm-12">Read this sentence:</div></div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">&nbsp;</div>
+                        <div class="text-center">
+                            <span style="font-size:18px;"><i>"My Voice Is My Passport. Verify Me!"</i></span>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <table width=100%>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td width="300px">
+                                        <button type="button" name="action" class="btn btn-success btn-lg btn-general" id="auth_voice"><span class="glyphicon glyphicon glyphicon-lock"></span> &nbsp; Authenticate</button>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+                        </div>     
+                        <div class="row">&nbsp;</div>
+                        <div class="row">&nbsp;</div>
+                        <div id="voice_status">
+                            <table>
+                                <tr>
+                                    <td width="600px" align="center"><img id="voice_logo" src="" height="50px">&nbsp;&nbsp;&nbsp;<span id="voice_result"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>
