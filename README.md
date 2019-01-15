@@ -34,7 +34,7 @@ Authentication outcome:
 ![Alt text](/screenshot/note5.jpg?raw=true)
 
 ### (6) Application "learns" about user's face on the spot
-![Alt text](/screenshot/note5.jpg?raw=true)
+![Alt text](/screenshot/note6.jpg?raw=true)
 
 ### (7) User behaviour is recorded at backend for security purpose
 ![Alt text](/screenshot/face_recording.png?raw=true)
