@@ -44,24 +44,9 @@ class SecurityCam(object):
                 
                 '''Asynchrnously process face using Face API (invoke face-api.py)'''
                 
-                # cmd = 'python face-api.py -i '+str(config.frameNum)+'.jpg'
-                # subprocess.Popen(cmd.split())
-                
                 # cmd = 'python test-console.py'
                 # p = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell=True)
                 # output, errors = p.communicate()
-
-            cv2.rectangle(resizedImg, (x, y), (x + w, y + h), (0, 200, 0),2)
-            if config.currentUser is not None:
-                if w < 100:
-                    textSize = 0.4
-                elif w > 200:
-                    textSize = 0.7
-                else:
-                    textSize = 0.5
-                
-                cv2.rectangle(resizedImg, (x-1, y-20), (x + w +1, y), (0, 200, 0), -1, lineType=cv2.LINE_AA)
-                cv2.putText(resizedImg, config.currentUser, (x,y-5), cv2.FONT_HERSHEY_SIMPLEX, textSize, (255, 255, 255), thickness=1, lineType=cv2.LINE_AA)
 
             config.frameNum += 1
 

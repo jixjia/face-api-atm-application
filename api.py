@@ -14,7 +14,7 @@ init(convert=True) #For colorama
 def sms(pin, destination):
     client = Client(config.account_sid, config.auth_token) 
     message = client.messages.create( 
-                                from_='+18132965830',  
+                                from_='{YOUR_TWILLIO_PHONE_NUMBER}',  
                                 body='Face identification PIN: '+str(pin),      
                                 to=destination 
     )

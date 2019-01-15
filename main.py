@@ -77,10 +77,6 @@ def auth_voice():
     return jsonify(voice_result=voice_result)
 
 
-@app.route('/register', methods=["GET", "POST"])
-def register():
-    return render_template('register.html')
-
 
 @app.route('/register_face')
 def register_face():
