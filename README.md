@@ -8,12 +8,29 @@ Clone the git repository. \n
 Edit file ``config.py`` and ``api.py`` with your favourite editor as following:
 
 ### config.py
-| Property        | Description |How TO  |
+Create and put following keys in to this configuration file:
+
+| Property        | Description |How To  |
 |:------------- |:-------------|:-----|
-|YOUR_FACE_API_KEY| Face API key | Get Face API key from [Cognitive Service](https://azure.microsoft.com/en-us/try/cognitive-services/?api=face-api)|
-|YOUR_PERSON_GROUP_ID      | Face API's person group container Id      |Go to [Face API testing console](https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244/console). Create a new personGroupId using your Face API key |
+|YOUR_FACE_API_KEY| Face API key |Get Face API key from [Cognitive Service Face API](https://azure.microsoft.com/en-us/try/cognitive-services/?api=face-api)|
+|YOUR_PERSON_GROUP_ID      | Face API's person group container Id      |Go to [Face API test console](https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244/console) and create a new personGroupId (any name will do) using your Face API key |
 |YOUR_TWILIO_ACCOUNT_SID YOUR_TWILIO_AUTH_TOKEN | Twilio account's SID and authorization token | Register a trial Twilio account at [Twilio](http://www.twilio.com). Go to account page and find your ACCOUNT SID and AUTH TOKEN |
-|YOUR_SPEAKER_RECOGNITION_API_KEY| Speaker Recognition API key | Get Speaker API key from [Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/speaker-recognition/) |
+|YOUR_SPEAKER_RECOGNITION_API_KEY| Speaker Recognition API key | Get Speaker API key from [Cognitive Service Speaker Recognition API](https://azure.microsoft.com/en-us/services/cognitive-services/speaker-recognition/) |
+|YOUR_TEST_USER_VOICE_PROFILE_ID| Speaker's voice profile Id | Go to [Speaker Recognition test console](https://westus.dev.cognitive.microsoft.com/docs/services/563309b6778daf02acc0a508/operations/56406930e597ed20c8d8549d/console) and create a new verificationProfileId (any name will do) using your Speaker Recognition API key|
+
+Record an audio file of your voice:
+Go to [here](https://rposbo.github.io/speaker-recognition-api/)
+Paste your speaker API key and click go, follow the instruction on the screen to create your verificationProfileId
+
+### api.py
+Go to your Twilio account page and find your Twilio phone number.
+Copy and paste this number (including the '+' and country code) to #YOUR_TWILLIO_PHONE_NUMBER
+
+### Running the application
+Run main.py with python3.x using Anaconda prompt
+Wait for a few seconds until the console shows "Running on http://localhost:5000/"
+Open Chrome and go to localhost:5000
+
 
 
 ## Screenshots
