@@ -12,10 +12,8 @@ Edit file ``config.py`` and ``api.py`` with your favourite editor as following:
 | ------------- |:-------------|:-----|
 | YOUR_FACE_API_KEY| Face API key | Get Face API key from [Cognitive Service] (https://azure.microsoft.com/en-us/try/cognitive-services/?api=face-api)|
 | YOUR_PERSON_GROUP_ID      | Face API's person group container Id      |Go to [Face API testing console] (https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244/console). Create a new personGroupId using your Face API key |
-| YOUR_TWILIO_ACCOUNT_SID | Twilio account's SID      |Register a trial Twilio account at www.twilio.com
-Go to account page and find your ACCOUNT SID and AUTH TOKEN |
-| YOUR_TWILIO_AUTH_TOKEN | Twilio account's authrization token      |Register a trial Twilio account at www.twilio.com
-Go to account page and find your ACCOUNT SID and AUTH TOKEN |
+| YOUR_TWILIO_ACCOUNT_SID
+YOUR_TWILIO_AUTH_TOKEN | Twilio account's SID and authorization token | Register a trial Twilio account at www.twilio.com. Go to account page and find your ACCOUNT SID and AUTH TOKEN |
 | YOUR_SPEAKER_RECOGNITION_API_KEY| Speaker Recognition API key | Get Speaker API key from [Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/speaker-recognition/) |
 
 
