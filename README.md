@@ -1,12 +1,11 @@
 # face-api-atm-application
 Face API with container support applied to ATM use case. This is a PoC solution (Demo)
 
-## Pre-requisite
-coming soon..
 
 ## How-to Install
-Download the entire folder to your local drive.
-Open config.py and api.py with notepad++
+
+Clone the git repository
+Open ``config.py`` and api.py with notepad++
 
 1. config.py
 YOUR_FACE_API_KEY : 
