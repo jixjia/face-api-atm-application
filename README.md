@@ -4,13 +4,13 @@ Face API with container support applied to ATM use case. This is a PoC solution 
 
 ## How-to Install
 
-Clone the git repository. \n
+Clone the git repository.   
 Edit file ``config.py`` and ``api.py`` with your favourite editor as following:
 
 ### config.py
-Create and put following keys in to this configuration file:
+Create and put following keys in to this configuration file:  
 
-| Property        | Description |How To  |
+| Property        | Description |How To|
 |:------------- |:-------------|:-----|
 |YOUR_FACE_API_KEY| Face API key |Get Face API key from [Cognitive Service Face API](https://azure.microsoft.com/en-us/try/cognitive-services/?api=face-api)|
 |YOUR_PERSON_GROUP_ID      | Face API's person group container Id      |Go to [Face API test console](https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244/console) and create a new personGroupId (any name will do) using your Face API key |
@@ -23,14 +23,13 @@ Go to [here](https://rposbo.github.io/speaker-recognition-api/)
 Paste your speaker API key and click go, follow the instruction on the screen to create your verificationProfileId
 
 ### api.py
-Go to your Twilio account page and find your Twilio phone number.
+Go to your Twilio account page and find your Twilio phone number.  
 Copy and paste this number (including the '+' and country code) to #YOUR_TWILLIO_PHONE_NUMBER
 
 ### Running the application
-Run main.py with python3.x using Anaconda prompt
-Wait for a few seconds until the console shows "Running on http://localhost:5000/"
-Open Chrome and go to localhost:5000
-
+Run ``main.py`` with python3.x to start the program.   
+Wait for a few seconds until the console shows "Running on http://localhost:5000/"  
+Open Chrome/Firefox (note IE and Edge is not officially supported)  
 
 
 ## Screenshots
