@@ -5,15 +5,16 @@ Face API with container support applied to ATM use case. This is a PoC solution 
 ## How-to Install
 
 Clone the git repository
-Open ``config.py`` and api.py with notepad++
+Edit ``config.py`` and ``api.py`` with your favourite editor
 
-1. config.py
-YOUR_FACE_API_KEY : 
-generate your vision API key from https://projectoxfordkeysignup.azurewebsites.net/
+#### 1. ``config.py``
+| Variable | How-to |
+|**YOUR_FACE_API_KEY**| Get Face API key from [Cognitive Service] (https://azure.microsoft.com/en-us/try/cognitive-services/?api=face-api)|
 
-YOUR_PERSON_GROUP_ID : 
-Go to https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244
-select "West US" as the open API testing console,
+
+
+**YOUR_PERSON_GROUP_ID** : 
+Go to [Face API testing console](https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236)
 Type in any value to the personGroupId box.
 This value is also the value for YOUR_PERSON_GROUP_ID.
 copy and paste your face API key to the Ocp-Apim-Subscription-Key box.
