@@ -26,11 +26,13 @@ Paste your speaker API key and click go, follow the instruction on the screen to
 Go to your Twilio account page and find your Twilio phone number.  
 Copy and paste this number (including the '+' and country code) to #YOUR_TWILLIO_PHONE_NUMBER
 
-### Running the application
+### Running the app in local mode
 Run ``main.py`` with python3.x to start the program.   
 Wait for a few seconds until the console shows "Running on http://localhost:5000/"  
 Open Chrome/Firefox (note IE and Edge is not officially supported)  
 
+### Running the app on Azure App Services (Linux)
+Follow this [instruction](https://docs.microsoft.com/en-us/azure/app-service/containers/quickstart-python) to deploy the application as a docker container on the Azure App Services (Linux)
 
 ## Screenshots
 
